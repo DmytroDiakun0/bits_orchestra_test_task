@@ -1,0 +1,44 @@
+﻿@model IEnumerable<bits_orchestra_test_task.Models.User>
+
+@{
+    ViewData["Title"] = "Contact Manager Application";
+}
+
+<div>
+    <div class="text-center m-5">
+        <h1>Upload .csv file</h1>
+        <form id="UserUploadForm" enctype="multipart/form-data" method="post" action="/User/Create">
+            <input class="form-control w-25 m-auto" type="file" name="csvFile" accept=".csv" />
+            <button class="btn btn-success m-2 p-2" type="submit">Submit</button>
+        </form>
+    </div>
+
+    <h2 class="text-center">User List</h2>
+    <table id="user-table" class="table">
+        <thead>
+            <tr>
+                <th role="button" scope="col" onclick="sortTable(0)">Name</th>
+                <th role="button" scope="col" onclick="sortTable(1)">Date of Birth</th>
+                <th role="button" scope="col" onclick="sortTable(2)">Married</th>
+                <th role="button" scope="col" onclick="sortTable(3)">Phone</th>
+                <th role="button" scope="col" onclick="sortTable(4)">Salary</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr data-id="@user.Id">
+                    <td class="editable" data-field="Name">@user.Name</td>
+                    <td class="editable" data-field="DateOfBirth">@user.DateOfBirth.ToShortDateString()</td>
+                    <td class="editable" data-field="Married">@(user.Married ? "Yes" : "No")</td>
+                    <td class="editable" data-field="Phone">@user.Phone</td>
+                    <td class="editable" data-field="Salary">@user.Salary</td>
+                    <td><a class="btn btn-danger m-1 p-2" asp-action="Delete" asp-route-id="@user.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script src="~/js/user_update.js"></script>
+</div>
